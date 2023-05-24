@@ -4,3 +4,7 @@ https://www.akveo.com/ngx-admin/pages/dashboard?utm_campaign=ngx_admin%20-%20dem
 
 # nebular components
 https://akveo.github.io/nebular/docs/components/card/overview#nbcardcomponent
+
+# table
+https://akveo.github.io/ng2-smart-table/#/ 
+https://github.com/akveo/ng2-smart-table/blob/master/projects/demo/src/app/pages/examples/custom-edit-view/advanced-example-custom-editor.component.ts

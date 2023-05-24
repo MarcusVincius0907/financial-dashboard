@@ -1,5 +1,5 @@
-import { Component, OnInit } from "@angular/core";
-import { LocalDataSource } from "ng2-smart-table";
+import { Component, Input, OnInit } from "@angular/core";
+import { LocalDataSource, ViewCell } from "ng2-smart-table";
 import { SmartTableData } from "../../../../@core/data/smart-table";
 
 @Component({
@@ -28,26 +28,26 @@ export class ExpensesTableComponent implements OnInit {
         title: "ID",
         type: "number",
       },
-      firstName: {
-        title: "First Name",
+      checkItem: {
+        title: "Checkbox title",
+        type: "custom",
+        renderComponent: CheckboxComponent,
+      },
+      description: {
+        title: "Description",
         type: "string",
       },
-      lastName: {
-        title: "Last Name",
+      value: {
+        title: "Value",
         type: "string",
       },
-      username: {
-        title: "Username",
+      date: {
+        title: "Date",
         type: "string",
       },
-      email: {
-        title: "E-mail",
-        type: "string",
-      },
-      age: {
-        title: "Age",
-        type: "number",
-      },
+    },
+    pager: {
+      perPage: 5,
     },
   };
 
@@ -56,7 +56,29 @@ export class ExpensesTableComponent implements OnInit {
   source: LocalDataSource = new LocalDataSource();
 
   constructor(private service: SmartTableData) {
-    const data = this.service.getData();
+    const data = [
+      {
+        id: 1,
+        checkItem: "item",
+        description: "Aluguel",
+        value: "1.500,00",
+        date: "10",
+      },
+      {
+        id: 2,
+        checkItem: "item",
+        description: "Netflix",
+        value: "50,00",
+        date: "15",
+      },
+      {
+        id: 3,
+        checkItem: "item",
+        description: "Luz",
+        value: "100,00",
+        date: "8",
+      },
+    ];
     this.source.load(data);
   }
 
@@ -66,5 +88,19 @@ export class ExpensesTableComponent implements OnInit {
     } else {
       event.confirm.reject();
     }
+  }
+}
+
+@Component({
+  template: ` <input type="checkbox" name="" id="" /> `,
+})
+export class CheckboxComponent implements ViewCell, OnInit {
+  renderValue: string;
+
+  @Input() value: string | number;
+  @Input() rowData: any;
+
+  ngOnInit() {
+    this.renderValue = this.value.toString().toUpperCase();
   }
 }
