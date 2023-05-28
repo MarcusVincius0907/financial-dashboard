@@ -6,9 +6,11 @@ import { RegisterComponent } from "./components/register/register.component";
 import { RouterModule, Routes } from "@angular/router";
 import { ExpensesTableComponent } from "./components/expenses-table/expenses-table.component";
 import {
+  NbButtonModule,
   NbCardModule,
   NbCheckboxModule,
   NbDatepickerModule,
+  NbIconModule,
   NbInputModule,
 } from "@nebular/theme";
 import { Ng2SmartTableModule } from "ng2-smart-table";
@@ -39,6 +41,8 @@ const routes: Routes = [
     NbDatepickerModule,
     NbInputModule,
     NbCheckboxModule,
+    NbButtonModule,
+    NbIconModule,
   ],
   exports: [RouterModule],
 })

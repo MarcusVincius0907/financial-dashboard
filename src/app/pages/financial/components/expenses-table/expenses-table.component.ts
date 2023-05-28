@@ -65,4 +65,9 @@ export class ExpensesTableComponent implements OnInit {
   ngOnInit(): void {}
 
   constructor() {}
+
+  onSave() {
+    console.log(this.fixedExpense);
+    console.log(this.variableExpense);
+  }
 }
