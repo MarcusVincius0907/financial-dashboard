@@ -1,4 +1,8 @@
-@import '../@theme/styles/themes';
+@import "../@theme/styles/themes";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 @include nb-install-component() {
   ::ng-deep router-outlet + * {
