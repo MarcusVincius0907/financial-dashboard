@@ -1,0 +1,10 @@
+<nb-card accent="info">
+  <nb-card-header> Despesas </nb-card-header>
+  <nb-card-body>
+    <div class="text-white bg-gray-800 text-xl p-2">Fixa</div>
+
+    <ng2-smart-table [settings]="settings" [source]="data"> </ng2-smart-table>
+    <div class="text-white bg-gray-800 text-xl p-2">Variavel</div>
+    <ng2-smart-table [settings]="settings" [source]="data"> </ng2-smart-table>
+  </nb-card-body>
+</nb-card>
