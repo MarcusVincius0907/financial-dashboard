@@ -20,7 +20,8 @@ import { InvestmentsTableComponent } from "./register/investments-table/investme
 import { DoneCheckboxComponent } from "./register/done-checkbox/done-checkbox.component";
 import { ResultComponent } from "./register/result/result.component";
 import { TopCardToolsComponent } from "./register/top-card-tools/top-card-tools.component";
-import { OverallTableComponent } from './summary/overall-table/overall-table.component';
+import { OverallTableComponent } from "./summary/overall-table/overall-table.component";
+import { FinancialService } from "./services/financial.service";
 
 const routes: Routes = [
   {
@@ -59,5 +60,6 @@ const routes: Routes = [
     NbProgressBarModule,
   ],
   exports: [RouterModule],
+  providers: [FinancialService],
 })
 export class FinancialModule {}
