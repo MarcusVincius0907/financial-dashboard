@@ -1,21 +1,33 @@
 import { ExpenseData, IncomeData } from "../models/financial.model";
-import { createReducer, on } from "@ngrx/store";
-import { setExpenseData, setIncomeData } from "./financial.actions";
+import { Action, createReducer, on } from "@ngrx/store";
+import {
+  requestExpenseDataSuccess,
+  requestIncomeDataSuccess,
+} from "./financial.actions";
 
-interface FinancialState {
-  expenseData: ExpenseData;
-  incomeData: IncomeData;
+export interface FinancialState {
+  expenseDataList: ExpenseData;
+  incomeDataList: IncomeData;
 }
 
-export const financialReducer = createReducer<FinancialState>(
+export const financialStateKey = "financialState";
+
+export const reducer = createReducer<FinancialState>(
   {
-    expenseData: null,
-    incomeData: null,
+    expenseDataList: [],
+    incomeDataList: [],
   },
-  on(setExpenseData, (state, action): FinancialState => {
-    return { ...state, expenseData: action._p.expenseData };
+  on(requestIncomeDataSuccess, (state, action): FinancialState => {
+    return { ...state, incomeDataList: action.incomeData };
   }),
-  on(setIncomeData, (state, action): FinancialState => {
-    return { ...state, expenseData: action._p.incomeData };
+  on(requestExpenseDataSuccess, (state, action): FinancialState => {
+    return { ...state, expenseDataList: action.expenseData };
   })
 );
+
+export function financialReducer(
+  state: FinancialState | undefined,
+  action: Action
+): FinancialState {
+  return reducer(state, action);
+}

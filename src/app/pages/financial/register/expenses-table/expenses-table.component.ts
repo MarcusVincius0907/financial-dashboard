@@ -1,23 +1,47 @@
-import { Component, Input, OnInit } from "@angular/core";
-import { LocalDataSource, ViewCell } from "ng2-smart-table";
-import { SmartTableData } from "../../../../@core/data/smart-table";
-import { DoneCheckboxComponent } from "../done-checkbox/done-checkbox.component";
-import { generateInitialTableConfig } from "../../utils/financial.utils";
+import {
+  Component,
+  Input,
+  OnInit,
+  OnDestroy,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+} from "@angular/core";
+import { generateInitialTableSettings } from "../../utils/financial.utils";
+import { Store } from "@ngrx/store";
+import { requestExpenseData } from "../../store/financial.actions";
+import { selectExpenseData } from "../../store/financial.selectors";
+import { Subscription } from "rxjs";
 
 @Component({
   selector: "expenses-table",
   templateUrl: "./expenses-table.component.html",
   styleUrls: ["./expenses-table.component.scss"],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ExpensesTableComponent implements OnInit {
+export class ExpensesTableComponent implements OnInit, OnDestroy {
   data = null;
   settings = null;
 
+  subscriptions = new Subscription();
+
+  constructor(private store$: Store, private cdr: ChangeDetectorRef) {}
+
   ngOnInit(): void {
-    const { data, settings } = generateInitialTableConfig();
-    this.data = data;
-    this.settings = settings;
+    this.settings = generateInitialTableSettings();
+    this.store$.dispatch(requestExpenseData());
+
+    this.subscriptions.add(
+      this.store$.select(selectExpenseData).subscribe((expenseList) => {
+        console.log(expenseList);
+        if (expenseList) {
+          this.data = expenseList;
+          this.cdr.markForCheck();
+        }
+      })
+    );
   }
 
-  constructor() {}
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
+  }
 }

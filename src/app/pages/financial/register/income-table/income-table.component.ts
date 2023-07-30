@@ -1,73 +1,47 @@
-import { Component, OnInit } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+} from "@angular/core";
 import { DoneCheckboxComponent } from "../done-checkbox/done-checkbox.component";
+import { generateInitialTableSettings } from "../../utils/financial.utils";
+import { FinancialService } from "../../services/financial.service";
+import { Subscription } from "rxjs";
+import { Store } from "@ngrx/store";
+import { requestIncomeData } from "../../store/financial.actions";
+import { selectIncomeData } from "../../store/financial.selectors";
 
 @Component({
   selector: "income-table",
   templateUrl: "./income-table.component.html",
   styleUrls: ["./income-table.component.scss"],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class IncomeTableComponent implements OnInit {
-  settings = {
-    add: {
-      addButtonContent: '<i class="nb-plus"></i>',
-      createButtonContent: '<i class="nb-checkmark"></i>',
-      cancelButtonContent: '<i class="nb-close"></i>',
-    },
-    edit: {
-      editButtonContent: '<i class="nb-edit"></i>',
-      saveButtonContent: '<i class="nb-checkmark"></i>',
-      cancelButtonContent: '<i class="nb-close"></i>',
-    },
-    delete: {
-      deleteButtonContent: '<i class="nb-trash"></i>',
-      confirmDelete: true,
-    },
-    columns: {
-      id: {
-        title: "ID",
-        type: "number",
-      },
+export class IncomeTableComponent implements OnInit, OnDestroy {
+  data = null;
+  settings = null;
 
-      description: {
-        title: "Description",
-        type: "string",
-      },
-      value: {
-        title: "Value",
-        type: "string",
-      },
-      lastUpdate: {
-        title: "Last update",
-        type: "string",
-      },
-    },
-    pager: {
-      perPage: 5,
-    },
-  };
+  subscriptions = new Subscription();
 
-  data = [
-    {
-      id: 0,
-      description: "Salario",
-      value: "15,00",
-      lastUpdate: "10/10/23",
-    },
-    {
-      id: 0,
-      description: "PJ",
-      value: "15,00",
-      lastUpdate: "10/10/23",
-    },
-    {
-      id: 0,
-      description: "Frela",
-      value: "15,00",
-      lastUpdate: "10/10/23",
-    },
-  ];
+  constructor(private store$: Store, private cdr: ChangeDetectorRef) {}
 
-  constructor() {}
+  ngOnInit(): void {
+    this.settings = generateInitialTableSettings();
+    this.store$.dispatch(requestIncomeData());
 
-  ngOnInit(): void {}
+    this.subscriptions.add(
+      this.store$.select(selectIncomeData).subscribe((incomeList) => {
+        if (incomeList) {
+          this.data = incomeList;
+          this.cdr.markForCheck();
+        }
+      })
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
+  }
 }

@@ -1,6 +1,6 @@
 <nb-card accent="info">
   <nb-card-header> Despesas </nb-card-header>
-  <nb-card-body>
+  <nb-card-body *ngIf="data">
     <ng2-smart-table [settings]="settings" [source]="data"> </ng2-smart-table>
   </nb-card-body>
 </nb-card>

@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { expensesData } from "../data/financial.data";
+import { expensesData, incomeData } from "../data/financial.data";
 import { Observable, of } from "rxjs";
 import { ExpenseData } from "../models/financial.model";
 
@@ -9,11 +9,11 @@ import { ExpenseData } from "../models/financial.model";
 export class FinancialService {
   constructor() {}
 
-  getExpense(): Observable<ExpenseData> {
+  getExpenseData(): Observable<ExpenseData> {
     return of(expensesData);
   }
 
-  getIncome(): Observable<ExpenseData> {
-    return of();
+  getIncomeData(): Observable<ExpenseData> {
+    return of(incomeData);
   }
 }

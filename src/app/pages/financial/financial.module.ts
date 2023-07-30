@@ -22,6 +22,10 @@ import { ResultComponent } from "./register/result/result.component";
 import { TopCardToolsComponent } from "./register/top-card-tools/top-card-tools.component";
 import { OverallTableComponent } from "./summary/overall-table/overall-table.component";
 import { FinancialService } from "./services/financial.service";
+import { StoreModule } from "@ngrx/store";
+import { EffectsModule } from "@ngrx/effects";
+import { financialReducer, financialStateKey } from "./store/financial.reducer";
+import { FinancialEffects } from "./store/financial.effects";
 
 const routes: Routes = [
   {
@@ -58,6 +62,8 @@ const routes: Routes = [
     NbButtonModule,
     NbIconModule,
     NbProgressBarModule,
+    StoreModule.forFeature(financialStateKey, financialReducer),
+    EffectsModule.forFeature([FinancialEffects]),
   ],
   exports: [RouterModule],
   providers: [FinancialService],

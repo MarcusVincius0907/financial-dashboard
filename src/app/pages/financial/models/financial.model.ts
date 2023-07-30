@@ -10,5 +10,5 @@ export interface FinancialDataItem {
   lastUpdate: string;
 }
 
-export type ExpenseData = FinancialData;
-export type IncomeData = FinancialData;
+export type ExpenseData = Array<FinancialDataItem>;
+export type IncomeData = Array<FinancialDataItem>;
